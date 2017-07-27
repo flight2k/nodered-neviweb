@@ -1,0 +1,25 @@
+{
+  "name": "node-red-contrib-neviweb",
+  "version": "0.0.1",
+  "description": "Nodes for using Neviweb API",
+  "license": "GPL-3.0",
+  "author": {
+    "name":"Frédéric Paillé",
+    "email":"frederic@ordi-logic.com",
+    "url":"https://github.com/flight2k/"
+  },
+  "repository":{
+    "type":"git",
+    "url":"https://github.com/flight2k/nodered-neviweb.git"
+  },
+  "dependencies": {
+    "request": "2.79.0",
+    "debug": "2.6.0"
+  },
+  "keywords": ["node-red"],
+  "node-red": {
+    "nodes": {
+      "sample": "neviweb/neviweb.js"
+    }
+  }
+}
