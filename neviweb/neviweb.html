@@ -22,7 +22,7 @@
     category: 'config',
     defaults: {
       url: {
-        value: "",
+        value: "https://neviweb.com/api/",
         required: true
       },
       name: {
@@ -32,14 +32,81 @@
     },
     credentials: {
       username: {
-        type: "text"
+        type: "text",
+        required: true
       },
       password: {
-        type: "password"
+        type: "password",
+        required: true
       }
     },
     label: function() {
       return this.name ||  "Neviweb Account";
     }
   });
+</script>
+<script type="text/x-red" data-template-name="neviweb-account">
+  <div class="form-row">
+    <label for="node-config-input-name"><i class="icon-tag"></i> Name</label>
+    <input type="text" id="node-config-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-url"><i class="icon-white-globe"></i> URL</label>
+    <input type="text" id="node-config-input-url" placeholder="https://neviweb.com/api/">
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-username"><i class="icon-tag"></i> Username</label>
+    <input type="text" id="node-config-input-username" placeholder="">
+  </div>
+  <div class="form-row">
+    <label for="node-config-input-password"><i class="icon-tag"></i> Password</label>
+    <input type="password" id="node-config-input-password" placeholder="">
+  </div>
+</script>
+
+<!-- *************** Gateway Node *************** -->
+<script type="text/javascript">
+  RED.nodes.registerType('neviweb-gateway', {
+    category: 'jira',
+    color: '#a6bbcf',
+    defaults: {
+      name: {
+        value: ""
+      },
+      account: {
+        value: "",
+        type: "neviweb-account"
+      },
+      info: {
+        value: "payload"
+      },
+      id: {
+        value: "topic"
+      }
+    },
+    inputs: 1,
+    outputs: 2,
+    icon: "nodered-contrib-neviweb-icon.png",
+    label: function() {
+      return this.name || "Neviweb gateway";
+    }
+  });
+</script>
+<script type="text/x-red" data-template-name="neviweb-gateway">
+  <div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-account"><i class="icon-db"></i> Account</label>
+    <input type="text" id="node-input-account" placeholder="Account">
+  </div>
+  <div class="form-row">
+    <label for="node-input-info"><i class="icon-function"></i> Info output</label>
+    <input type="text" id="node-input-info" placeholder="payload">
+  </div>
+  <div class="form-row">
+    <label for="node-input-id"><i class="icon-tag"></i> ID output</label>
+    <input type="text" id="node-input-id" value="topic">
+  </div>
 </script>
