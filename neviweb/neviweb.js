@@ -11,10 +11,10 @@ module.exports = function(RED) {
     var sessionId = "";
     
     this.doRequest = function(options, callback) {
-      if ( sessionId === "" ) {
-        sessionId = node.doLogin();      
+      if ( context.get('neviweb-sessionId' === "" || context.get('neviweb-sessionId' === undefined ) {
+        node.doLogin();      
       }
-      options["Session-Id"] = sessionId;
+      options["Session-Id"] = context.get('neviweb-sessionId');
       this.log("DoRequest " + JSON.stringify(options));
       request(options, callback);
     }
@@ -31,17 +31,18 @@ module.exports = function(RED) {
         followAllRedirects: true,
         json: true
       };
-      request(options, function(errors, response, body) {
+      var lcallback = function(errors, response, body) {
         if (errors) {
           node.log(JSON.stringify(errors));
         } else if ( body.session !== "" ) {
-          node.sessionId = body.session;
+          context.set('neviweb-sessionId') = body.session;
           node.log("Login success : " + JSON.stringify(body));
           return body.session;
         } else {
           node.log("Login error : " + JSON.stringify(body));
         }
-      });
+      };
+      request(options, lcallback);
     }
     
     this.gateway = function(callback) {
