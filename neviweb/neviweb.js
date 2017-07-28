@@ -8,7 +8,7 @@ module.exports = function(RED) {
     var email = this.credentials.email;
     var password = this.credentials.password;
     var request = require("request");
-    var sessionId = "";
+    var context = this.context();
     
     this.doRequest = function(options, callback) {
       if ( context.get('neviweb-sessionId') === "" || context.get('neviweb-sessionId') === undefined ) {
