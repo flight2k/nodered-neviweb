@@ -27,13 +27,11 @@ module.exports = function(RED) {
         options.headers = {
           'Session-Id': globalContext.get('neviweb-sessionId')
         }
-        //options["Session-Id"] = context.get('neviweb-sessionId');
         node.log("DoRequest " + JSON.stringify(options));
         request(options, callback);      
       };
       if ( globalContext.get('neviweb-sessionId') === "" || globalContext.get('neviweb-sessionId') === undefined ) {
-        node.doLogin(lcallback); 
-        node.log("Context Session : " + globalContext.get('neviweb-sessionId'));
+        node.doLogin(lcallback);
       } else {
         completRequest(options, callback);
       }
