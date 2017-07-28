@@ -110,3 +110,31 @@
     <input type="text" id="node-input-id" value="topic">
   </div>
 </script>
+
+<script type="text/x-red" data-help-name="neviweb-gateway">
+  <p>A node to perform a request to Neviweb Website for gateway.</p>
+  <b>Configuration</b>
+  <ul>
+    <li>
+      <b>Name</b> Choose any name to identify your node.
+    </li>
+    <li>
+      <b>Server</b> Choose the Neviweb server instance to use.
+    </li>
+  </ul>
+  <b>Input</b>
+  <ul>
+    <li>
+      Anything.
+    </li>
+  </ul>
+  <b>Output</b>
+  <ul>
+    <li>
+      <code>msg.payload</code> contains the body.
+    </li>
+    <li>
+      <code>msg.topic</code> contains the ID.
+    </li>
+  </ul>
+</script>
