@@ -13,7 +13,7 @@ module.exports = function(RED) {
     this.doRequest = function(options, callback) {
       if ( context.get('neviweb-sessionId') === "" || context.get('neviweb-sessionId') === undefined ) {
         node.doLogin(); 
-        node.log("Session : " + context.get('neviweb-sessionId');
+        node.log("Session : " + context.get('neviweb-sessionId'));
       }
       options.headers = {
         'Session-Id': context.get('neviweb-sessionId')
