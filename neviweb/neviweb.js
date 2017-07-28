@@ -71,10 +71,10 @@ module.exports = function(RED) {
           
         } else if (response.statusCode === 201) {
           node.status({});
-          msg.payload=body;
+          msg.payload=response.body;
           node.send(msg);
         } else {
-          msg.payload=body;
+          msg.payload=response.body;
           node.send(msg);
         }
       }
