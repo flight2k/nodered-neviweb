@@ -28,7 +28,7 @@ module.exports = function(RED) {
           'Session-Id': globalContext.get('neviweb-sessionId')
         }
         //options["Session-Id"] = context.get('neviweb-sessionId');
-        this.log("DoRequest " + JSON.stringify(options));
+        node.log("DoRequest " + JSON.stringify(options));
         request(options, callback);      
       };
       if ( globalContext.get('neviweb-sessionId') === "" || globalContext.get('neviweb-sessionId') === undefined ) {
