@@ -14,7 +14,10 @@ module.exports = function(RED) {
       if ( context.get('neviweb-sessionId') === "" || context.get('neviweb-sessionId') === undefined ) {
         node.doLogin();      
       }
-      options["Session-Id"] = context.get('neviweb-sessionId');
+      options.headers = {
+        'Session-Id': context.get('neviweb-sessionId')
+      }
+      //options["Session-Id"] = context.get('neviweb-sessionId');
       this.log("DoRequest " + JSON.stringify(options));
       request(options, callback);
     }
@@ -22,6 +25,7 @@ module.exports = function(RED) {
     this.doLogin = function() {
       var options = {
         rejectUnauthorized: false,
+        headers: {stayConnected: 0},
         uri: decodeURIComponent(url + 'login'),
         body: {
           email: email,
@@ -49,7 +53,8 @@ module.exports = function(RED) {
       var options = {
         rejectUnauthorized: false,
         uri: decodeURIComponent(url + 'gateway'),
-        method: "GET"
+        method: "GET",
+        headers: {}
       };
       node.doRequest(options, callback);
     }
@@ -70,7 +75,8 @@ module.exports = function(RED) {
           msg.payload=body;
           node.send(msg);
         } else {
-          
+          msg.payload=body;
+          node.send(msg);
         }
       }
       account.gateway(callback);
