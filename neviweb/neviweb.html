@@ -67,7 +67,7 @@
 <!-- *************** Gateway Node *************** -->
 <script type="text/javascript">
   RED.nodes.registerType('neviweb-gateway', {
-    category: 'jira',
+    category: 'Neviweb',
     color: '#a6bbcf',
     defaults: {
       name: {
@@ -85,7 +85,7 @@
       }
     },
     inputs: 1,
-    outputs: 2,
+    outputs: 1,
     icon: "nodered-contrib-neviweb-icon.png",
     label: function() {
       return this.name || "Neviweb gateway";
