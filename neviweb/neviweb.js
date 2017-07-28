@@ -12,7 +12,7 @@ module.exports = function(RED) {
     
     this.doRequest = function(options, callback) {
       if ( sessionId === "" ) {
-        node.doLogin();      
+        sessionId = node.doLogin();      
       }
       options["Session-Id"] = sessionId;
       this.log("DoRequest " + JSON.stringify(options));
@@ -37,6 +37,7 @@ module.exports = function(RED) {
         } else if ( body.session !== "" ) {
           node.sessionId = body.session;
           node.log("Login success : " + JSON.stringify(body));
+          return body.session;
         } else {
           node.log("Login error : " + JSON.stringify(body));
         }
