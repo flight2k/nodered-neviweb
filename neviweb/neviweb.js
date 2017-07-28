@@ -41,7 +41,7 @@ module.exports = function(RED) {
         if (errors) {
           node.log(JSON.stringify(errors));
         } else if ( body.session !== "" ) {
-          node.context.set('neviweb-sessionId',body.session);
+          context.set('neviweb-sessionId',body.session);
           node.log("Login success : " + JSON.stringify(body));
         } else {
           node.log("Login error : " + JSON.stringify(body));
