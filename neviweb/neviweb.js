@@ -23,7 +23,7 @@ module.exports = function(RED) {
           node.log("Login error : " + JSON.stringify(body));
         }
       };
-      var completRequest function(options, callback) {
+      var completRequest = function(options, callback) {
         options.headers = {
           'Session-Id': globalContext.get('neviweb-sessionId')
         }
