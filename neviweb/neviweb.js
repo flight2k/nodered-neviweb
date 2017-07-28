@@ -33,12 +33,12 @@ module.exports = function(RED) {
       };
       request(options, function(errors, response, body) {
         if (errors) {
-              
+          node.log(JSON.stringify(errors));
         } else if ( body.session !== "" ) {
           node.sessionId = body.session;
-          node.log("Login success : " + body.session);
+          node.log("Login success : " + JSON.stringify(body));
         } else {
-          node.log("Login error : " + body);
+          node.log("Login error : " + JSON.stringify(body));
         }
       });
     }
