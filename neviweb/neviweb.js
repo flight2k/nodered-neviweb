@@ -2,6 +2,7 @@ module.exports = function(RED) {
 
   function NeviwebAccountNode(config) {
     RED.nodes.createNode(this, config);
+    this.log(config);
     var node = this;
     var url = config.url;
     var email = this.credentials.email;
@@ -34,6 +35,7 @@ module.exports = function(RED) {
         if (errors) {
         } else if ( body.session !== "" ) {
           node.sessionId = body.session;
+          this.log("Login success : " + body.session);
         } else {
           node.log("Login error : " + body);
         }
@@ -76,5 +78,4 @@ module.exports = function(RED) {
   });
   
   RED.nodes.registerType("neviweb-gateway", NeviwebGatewayNode);
-  
 }
