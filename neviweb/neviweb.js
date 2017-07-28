@@ -24,7 +24,7 @@ module.exports = function(RED) {
       request(options, callback);
     }
     
-    this.doLogin = function() {
+    this.doLogin = function(context) {
       var login = {
         rejectUnauthorized: false,
         headers: {stayConnected: 0},
