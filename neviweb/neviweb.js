@@ -7,13 +7,63 @@ module.exports = function(RED) {
     var email = this.credentials.email;
     var password = this.credentials.password;
     var request = require("request");
+    var sessionId = "";
     
     this.doRequest = function(options, callback) {
-      options.email = email;
-      options.password = password;
-      
+      if ( session === "" ) {
+        node.doLogin();      
+      }
+      options.Session-Id = sessionId;
+      this.log("DoRequest " + options);
+      request(options, callback);
+    }
+    
+    this.doLogin = function() {
+      var options = {
+        rejectUnauthorized: false,
+        uri: decodeURIComponent(url + 'login'),
+        body: {
+          email: email,
+          password: password
+        },
+        method: 'POST',
+        followAllRedirects: true,
+        json: true
+      };
+      request(options, function(errors, response, body) {
+        if (errors) {
+        } else if ( body.session !== "" ) {
+          node.sessionId = body.session;
+        } else {
+          node.log("Login error : " + body);
+        }
+      });
+    }
+    
+    this.gateway = function(callback) {
+      var options = {
+        rejectUnauthorized: false,
+        uri: decodeURIComponent(url + 'gateway'),
+        method: "GET"
+      };
+      node.doRequest(options, callback);
   }
   
+  function NeviwebGatewayNode(config) {
+    RED.nodes.createNode(this, config);
+    var node = this;
+    var server = RED.nodes.getNode(config.server);
+    
+    this.on('input', function(msg) {
+      this.log("Asking gateway " + msg.payload);
+      server.gateway( function(errors, response, body) {
+        msg.payload = body;
+        node.send(msg);
+      });
+    });
+  }
+            
+            
   RED.nodes.registerType("neviweb-account", NeviwebAccountNode, {
     credentials: {
       email: {
