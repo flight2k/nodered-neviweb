@@ -11,7 +11,7 @@ module.exports = function(RED) {
     var sessionId = "";
     
     this.doRequest = function(options, callback) {
-      if ( session === "" ) {
+      if ( sessionId === "" ) {
         node.doLogin();      
       }
       options["Session-Id"] = sessionId;
