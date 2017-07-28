@@ -47,7 +47,7 @@ module.exports = function(RED) {
         followAllRedirects: true,
         json: true
       };
-      node.log('login : ' + login);
+      node.log('login : ' + JSON.stringify(login));
       request(login, lcallback);
     }
     
