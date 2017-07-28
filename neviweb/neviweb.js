@@ -59,13 +59,20 @@ module.exports = function(RED) {
     
     this.on('input', function(msg) {
       this.log("Asking gateway " + msg.payload);
-      account.gateway( function(errors, response, body) {
-        msg.payload = body;
-        node.send(msg);
-      });
+      var callback = function(errors, response, body) {
+        if (errors) {
+          
+        } else if (response.statusCode === 201) {
+          node.status({});
+          msg.payload=body;
+          node.send(msg);
+        } else {
+          
+        }
+      }
+      account.gateway(callback);
     });
   }
-            
             
   RED.nodes.registerType("neviweb-account", NeviwebAccountNode, {
     credentials: {
