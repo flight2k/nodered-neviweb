@@ -11,7 +11,7 @@ module.exports = function(RED) {
     var sessionId = "";
     
     this.doRequest = function(options, callback) {
-      if ( context.get('neviweb-sessionId' === "" || context.get('neviweb-sessionId' === undefined ) {
+      if ( context.get('neviweb-sessionId') === "" || context.get('neviweb-sessionId') === undefined ) {
         node.doLogin();      
       }
       options["Session-Id"] = context.get('neviweb-sessionId');
