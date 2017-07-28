@@ -18,20 +18,25 @@ module.exports = function(RED) {
         } else if ( body.session !== "" ) {
           globalContext.set('neviweb-sessionId',body.session);
           node.log("Login success : " + JSON.stringify(body));
+          completRequest(options, callback);
         } else {
           node.log("Login error : " + JSON.stringify(body));
         }
       };
+      var completRequest function(options, callback) {
+        options.headers = {
+          'Session-Id': globalContext.get('neviweb-sessionId')
+        }
+        //options["Session-Id"] = context.get('neviweb-sessionId');
+        this.log("DoRequest " + JSON.stringify(options));
+        request(options, callback);      
+      };
       if ( globalContext.get('neviweb-sessionId') === "" || globalContext.get('neviweb-sessionId') === undefined ) {
         node.doLogin(lcallback); 
         node.log("Context Session : " + globalContext.get('neviweb-sessionId'));
+      } else {
+        completRequest(options, callback);
       }
-      options.headers = {
-        'Session-Id': globalContext.get('neviweb-sessionId')
-      }
-      //options["Session-Id"] = context.get('neviweb-sessionId');
-      this.log("DoRequest " + JSON.stringify(options));
-      request(options, callback);
     }
     
     this.doLogin = function(lcallback) {
