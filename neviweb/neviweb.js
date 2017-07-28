@@ -8,18 +8,16 @@ module.exports = function(RED) {
     var email = this.credentials.email;
     var password = this.credentials.password;
     var request = require("request");
-    var context = this.context();
-    var session = "";
+    var globalContext = this.context().global;
     //context.set('neviweb-sessionId',"");
     
     this.doRequest = function(options, callback) {
-      if ( context.get('neviweb-sessionId') === "" || context.get('neviweb-sessionId') === undefined ) {
+      if ( globalContext.get('neviweb-sessionId') === "" || globalContext.get('neviweb-sessionId') === undefined ) {
         node.doLogin(); 
-        node.log("Context Session : " + context.get('neviweb-sessionId'));
-        node.log("Node Session : " + node.session);
+        node.log("Context Session : " + globalContext.get('neviweb-sessionId'));
       }
       options.headers = {
-        'Session-Id': context.get('neviweb-sessionId')
+        'Session-Id': globalContext.get('neviweb-sessionId')
       }
       //options["Session-Id"] = context.get('neviweb-sessionId');
       this.log("DoRequest " + JSON.stringify(options));
@@ -43,8 +41,7 @@ module.exports = function(RED) {
         if (errors) {
           node.log(JSON.stringify(errors));
         } else if ( body.session !== "" ) {
-          context.set('neviweb-sessionId',body.session);
-          node.session = body.session;
+          globalContext.set('neviweb-sessionId',body.session);
           node.log("Login success : " + JSON.stringify(body));
         } else {
           node.log("Login error : " + JSON.stringify(body));
