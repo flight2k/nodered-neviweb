@@ -12,8 +12,18 @@ module.exports = function(RED) {
     //context.set('neviweb-sessionId',"");
     
     this.doRequest = function(options, callback) {
+      var lcallback = function(errors, response, body) {
+        if (errors) {
+          node.log(JSON.stringify(errors));
+        } else if ( body.session !== "" ) {
+          globalContext.set('neviweb-sessionId',body.session);
+          node.log("Login success : " + JSON.stringify(body));
+        } else {
+          node.log("Login error : " + JSON.stringify(body));
+        }
+      };
       if ( globalContext.get('neviweb-sessionId') === "" || globalContext.get('neviweb-sessionId') === undefined ) {
-        node.doLogin(); 
+        node.doLogin(lcallback); 
         node.log("Context Session : " + globalContext.get('neviweb-sessionId'));
       }
       options.headers = {
@@ -24,7 +34,7 @@ module.exports = function(RED) {
       request(options, callback);
     }
     
-    this.doLogin = function() {
+    this.doLogin = function(lcallback) {
       var login = {
         rejectUnauthorized: false,
         headers: {stayConnected: 0},
@@ -36,16 +46,6 @@ module.exports = function(RED) {
         method: 'POST',
         followAllRedirects: true,
         json: true
-      };
-      var lcallback = function(errors, response, body) {
-        if (errors) {
-          node.log(JSON.stringify(errors));
-        } else if ( body.session !== "" ) {
-          globalContext.set('neviweb-sessionId',body.session);
-          node.log("Login success : " + JSON.stringify(body));
-        } else {
-          node.log("Login error : " + JSON.stringify(body));
-        }
       };
       request(login, lcallback);
     }
