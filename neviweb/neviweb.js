@@ -9,12 +9,14 @@ module.exports = function(RED) {
     var password = this.credentials.password;
     var request = require("request");
     var context = this.context();
+    var session = "";
     //context.set('neviweb-sessionId',"");
     
     this.doRequest = function(options, callback) {
       if ( context.get('neviweb-sessionId') === "" || context.get('neviweb-sessionId') === undefined ) {
         node.doLogin(); 
-        node.log("Session : " + context.get('neviweb-sessionId'));
+        node.log("Context Session : " + context.get('neviweb-sessionId'));
+        node.log("Node Session : " + node.session;
       }
       options.headers = {
         'Session-Id': context.get('neviweb-sessionId')
@@ -24,7 +26,7 @@ module.exports = function(RED) {
       request(options, callback);
     }
     
-    this.doLogin = function(context) {
+    this.doLogin = function() {
       var login = {
         rejectUnauthorized: false,
         headers: {stayConnected: 0},
@@ -42,6 +44,7 @@ module.exports = function(RED) {
           node.log(JSON.stringify(errors));
         } else if ( body.session !== "" ) {
           context.set('neviweb-sessionId',body.session);
+          node.session = body.session;
           node.log("Login success : " + JSON.stringify(body));
         } else {
           node.log("Login error : " + JSON.stringify(body));
