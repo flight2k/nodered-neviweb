@@ -50,6 +50,7 @@ module.exports = function(RED) {
         method: "GET"
       };
       node.doRequest(options, callback);
+    }
   }
   
   function NeviwebGatewayNode(config) {
