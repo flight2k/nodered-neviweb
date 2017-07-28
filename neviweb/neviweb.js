@@ -36,7 +36,7 @@ module.exports = function(RED) {
               
         } else if ( body.session !== "" ) {
           node.sessionId = body.session;
-          this.log("Login success : " + body.session);
+          node.log("Login success : " + body.session);
         } else {
           node.log("Login error : " + body);
         }
