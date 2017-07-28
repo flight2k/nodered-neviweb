@@ -23,7 +23,7 @@ module.exports = function(RED) {
     }
     
     this.doLogin = function() {
-      var options = {
+      var login = {
         rejectUnauthorized: false,
         headers: {stayConnected: 0},
         uri: decodeURIComponent(url + 'login'),
@@ -41,12 +41,11 @@ module.exports = function(RED) {
         } else if ( body.session !== "" ) {
           context.set('neviweb-sessionId',body.session);
           node.log("Login success : " + JSON.stringify(body));
-          return body.session;
         } else {
           node.log("Login error : " + JSON.stringify(body));
         }
       };
-      request(options, lcallback);
+      request(login, lcallback);
     }
     
     this.gateway = function(callback) {
