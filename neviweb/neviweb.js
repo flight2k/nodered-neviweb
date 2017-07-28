@@ -54,11 +54,11 @@ module.exports = function(RED) {
   function NeviwebGatewayNode(config) {
     RED.nodes.createNode(this, config);
     var node = this;
-    var server = RED.nodes.getNode(config.server);
+    var account = RED.nodes.getNode(config.account);
     
     this.on('input', function(msg) {
       this.log("Asking gateway " + msg.payload);
-      server.gateway( function(errors, response, body) {
+      account.gateway( function(errors, response, body) {
         msg.payload = body;
         node.send(msg);
       });
