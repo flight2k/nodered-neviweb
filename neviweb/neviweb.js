@@ -8,7 +8,7 @@ module.exports = function(RED) {
     var email = this.credentials.email;
     var password = this.credentials.password;
     var request = require("request");
-    var context = this.context();
+    var context = this.context().flow;
     
     this.doRequest = function(options, callback) {
       if ( context.get('neviweb-sessionId') === "" || context.get('neviweb-sessionId') === undefined ) {
@@ -37,11 +37,10 @@ module.exports = function(RED) {
         json: true
       };
       var lcallback = function(errors, response, body) {
-        var jBody = JSON.parse(body);
         if (errors) {
           node.log(JSON.stringify(errors));
-        } else if ( jBody.session !== "" ) {
-          context.set('neviweb-sessionId',jBody.session);
+        } else if ( body.session !== "" ) {
+          context.set('neviweb-sessionId',body.session);
           node.log("Login success : " + JSON.stringify(body));
         } else {
           node.log("Login error : " + JSON.stringify(body));
@@ -55,7 +54,8 @@ module.exports = function(RED) {
         rejectUnauthorized: false,
         uri: decodeURIComponent(url + 'gateway'),
         method: "GET",
-        headers: {}
+        headers: {},
+        json: true
       };
       node.doRequest(options, callback);
     }
