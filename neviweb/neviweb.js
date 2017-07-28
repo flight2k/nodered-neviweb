@@ -9,7 +9,7 @@ module.exports = function(RED) {
     var password = this.credentials.password;
     var request = require("request");
     var context = this.context();
-    context.set('neviweb-sessionId');
+    context.set('neviweb-sessionId',"");
     
     this.doRequest = function(options, callback) {
       if ( context.get('neviweb-sessionId') === "" || context.get('neviweb-sessionId') === undefined ) {
@@ -74,10 +74,10 @@ module.exports = function(RED) {
           
         } else if (response.statusCode === 201) {
           node.status({});
-          msg.payload=JSON.parse(response.body);
+          msg.payload=response.body;
           node.send(msg);
         } else {
-          msg.payload=JSON.parse(response.body);
+          msg.payload=response.body;
           node.send(msg);
         }
       }
