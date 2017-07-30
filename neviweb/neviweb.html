@@ -77,6 +77,9 @@
         value: "",
         type: "neviweb-account"
       },
+      mode: {
+        value: "GET"
+      },
       info: {
         value: "payload"
       },
@@ -101,6 +104,13 @@
   <div class="form-row">
     <label for="node-input-account"><i class="icon-db"></i> Account</label>
     <input type="text" id="node-input-account" placeholder="Account">
+  </div>
+  <div class="form-row">
+    <label for="node-input-mode"><i class="icon-function"></i> Mode</label>
+    <select id="node-input-mode">
+      <option value="GET" selected>GET Gateway information</option>
+      <option value="SET">SET Gateway information</option>
+    </select>
   </div>
   <div class="form-row">
     <label for="node-input-info"><i class="icon-function"></i> Info output</label>

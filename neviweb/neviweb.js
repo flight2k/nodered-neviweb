@@ -55,7 +55,7 @@ module.exports = function(RED) {
       request(login, lcallback);
     }
     
-    this.gateway = function(msg, callback) {
+    this.getGateway = function(msg, callback) {
       var options = {
         rejectUnauthorized: false,
         uri: decodeURIComponent(url + 'gateway'),
@@ -66,7 +66,19 @@ module.exports = function(RED) {
       node.doRequest(options, callback);
     }
 
-    this.device = function(msg, callback) {
+    this.setGateway = function(msg, callback) {
+      var options = {
+        rejectUnauthorized: false,
+        uri: decodeURIComponent(url + 'gateway/' + msg.gateway + '/mode'),        
+        method: "POST",
+        json: true,
+        body: {mode: msg.topic} //pourrait être modifier pour msg.payload.set.mode
+        //Mode : Absent = 2 / Présent = 0
+      };
+      node.doRequest(options, callback);
+    }
+
+    this.getDevice = function(msg, callback) {
       var options = {
         rejectUnauthorized: false,
         uri: decodeURIComponent(url + 'device?gatewayId=' + msg.gateway),
@@ -103,7 +115,11 @@ module.exports = function(RED) {
           }
         }
       }
-      account.gateway(msg, callback);
+      if (config.mode === "GET") {
+        account.getGateway(msg, callback);
+      } else if (config.mode === "SET") {
+        account.setGateway(msg, callback);
+      }
     });
   }
 
@@ -130,7 +146,7 @@ module.exports = function(RED) {
         }
       }
       msg.gateway = msg.gateway || config.gateway;
-      account.device(msg, callback);
+      account.getDevice(msg, callback);
     });
     
   }
