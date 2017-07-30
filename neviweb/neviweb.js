@@ -69,7 +69,7 @@ module.exports = function(RED) {
     this.device = function(msg, callback) {
       var options = {
         rejectUnauthorized: false,
-        uri: decodeURIComponent(url + 'device'),
+        uri: decodeURIComponent(url + 'device?gatewayID=' + msg.gateway),
         method: "GET",
         headers: {},
         body: {
