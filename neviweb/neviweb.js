@@ -18,7 +18,7 @@ module.exports = function(RED) {
         } else if ( body.session !== "" ) {
           globalContext.set('neviweb-sessionId',body.session);
           node.log("Login success : " + JSON.stringify(body));
-          this.status({fill:"green", shape:"dot", text:"Login success"});
+          node.status({fill:"green", shape:"dot", text:"Login success"});
           completRequest(options, callback);
         } else {
           node.log("Login error : " + JSON.stringify(body));
@@ -32,7 +32,7 @@ module.exports = function(RED) {
         request(options, callback);      
       };
       if ( globalContext.get('neviweb-sessionId') === "" || globalContext.get('neviweb-sessionId') === undefined ) {
-        this.status({fill:"yellow", shape:"dot", text:"Login"});
+        node.status({fill:"yellow", shape:"dot", text:"Login"});
         node.doLogin(lcallback);
       } else {
         completRequest(options, callback);
