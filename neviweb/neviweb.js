@@ -55,7 +55,7 @@ module.exports = function(RED) {
       request(login, lcallback);
     }
     
-    this.gateway = function(callback) {
+    this.gateway = function(msg, callback) {
       var options = {
         rejectUnauthorized: false,
         uri: decodeURIComponent(url + 'gateway'),
@@ -66,7 +66,7 @@ module.exports = function(RED) {
       node.doRequest(options, callback);
     }
 
-    this.device = function(callback) {
+    this.device = function(msg, callback) {
       var options = {
         rejectUnauthorized: false,
         uri: decodeURIComponent(url + 'device'),
@@ -102,10 +102,10 @@ module.exports = function(RED) {
           }
         }
       }
-      account.gateway(callback);
+      account.gateway(msg, callback);
     });
   }
-  
+
   function NeviwebDeviceNode(config) {
     RED.nodes.createNode(this, config);
     var node = this;
@@ -127,7 +127,7 @@ module.exports = function(RED) {
           }
         }
       }
-      account.device(callback);
+      account.device(msg, callback);
     });
     
   }
