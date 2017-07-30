@@ -79,10 +79,10 @@ module.exports = function(RED) {
         } else if (response.statusCode === 201) {
           node.status({});
           msg.payload=response.body;
-          node.send(msg);
+          node.send([msg, null]);
         } else {
           msg.payload=response.body;
-          node.send(msg);
+          node.send([null,msg]);
         }
       }
       account.gateway(callback);
