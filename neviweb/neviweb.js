@@ -52,7 +52,6 @@ module.exports = function(RED) {
         followAllRedirects: true,
         json: true
       };
-      //node.log('login : ' + JSON.stringify(login));
       request(login, lcallback);
     }
     
@@ -62,6 +61,19 @@ module.exports = function(RED) {
         uri: decodeURIComponent(url + 'gateway'),
         method: "GET",
         headers: {},
+        json: true
+      };
+      node.doRequest(options, callback);
+    }
+    this.device = function(callback) {
+      var options = {
+        rejectUnauthorized: false,
+        uri: decodeURIComponent(url + 'device'),
+        method: "GET",
+        headers: {},
+        body: {
+          gatewayID: msg.gateway || config.gateway
+        },
         json: true
       };
       node.doRequest(options, callback);
@@ -81,16 +93,41 @@ module.exports = function(RED) {
         } else {
           node.status({});
           msg.payload=response.body;
-          node.send([msg,null]);
+          node.send([null,msg]);
           for(var gateway of body) {
             msg[config.info]=gateway;
             msg[config.id]=gateway.id;
-            node.send([null, msg]);
+            node.send([msg,null]);
           }
         }
       }
       account.gateway(callback);
     });
+
+  function NeviwebDeviceNode(config) {
+    RED.nodes.createNode(this, config);
+    var node = this;
+    var account = RED.nodes.getNode(config.account);
+    
+    this.on('input', function(msg) {
+      this.log("Asking device " + msg.payload);
+      var callback = function(errors, response, body) {
+        if ( body.sessionExpired ) {
+          msg.payload = body;
+        } else {
+          node.status({});
+          msg.payload=response.body;
+          node.send([null,msg]);
+          for(var device of body) {
+            msg[config.info]=device;
+            msg[config.id]=device.id;
+            node.send([msg,null]);
+          }
+        }
+      }
+      account.device(callback);
+    });
+    
   }
             
   RED.nodes.registerType("neviweb-account", NeviwebAccountNode, {
@@ -105,4 +142,5 @@ module.exports = function(RED) {
   });
   
   RED.nodes.registerType("neviweb-gateway", NeviwebGatewayNode);
+  RED.nodes.registerType("neviweb-device", NeviwebDeviceNode);
 }

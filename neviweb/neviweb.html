@@ -129,13 +129,105 @@
       Anything.
     </li>
   </ul>
-  <b>Output</b>
+  <b>Output 1</b>
+  <p>1 output by gateway find</p>
+  <ul>
+    <li>
+      <code>msg.payload</code> contains the body. (depend of configuration)
+    </li>
+    <li>
+      <code>msg.gateway</code> contains the ID. (depend of configuration)
+    </li>
+  <b>Output 2</b>
+    <li>
+      <code>msg.payload</code> contains a array of all gateway find.
+  </ul>
+</script>
+<!-- *************** Device Node *************** -->
+<script type="text/javascript">
+  RED.nodes.registerType('neviweb-device', {
+    category: 'Neviweb',
+    color: '#a6bbcf',
+    defaults: {
+      name: {
+        value: ""
+      },
+      account: {
+        value: "",
+        type: "neviweb-account"
+      },
+      gateway: {
+        value: ""
+      },
+      info: {
+        value: "payload"
+      },
+      id: {
+        value: "device"
+      }
+    },
+    inputs: 1,
+    outputs: 2,
+    color: "#3FADB5",
+    icon: "nodered-contrib-neviweb-icon.png",
+    label: function() {
+      return this.name || "Neviweb gateway";
+    }
+  });
+</script>
+<script type="text/x-red" data-template-name="neviweb-device">
+  <div class="form-row">
+    <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+    <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+  <div class="form-row">
+    <label for="node-input-account"><i class="icon-db"></i> Account</label>
+    <input type="text" id="node-input-account" placeholder="Account">
+  </div>
+  <div class="form-row">
+    <label for="node-input-gateway"><i class="icon-function"></i> Gateway ID</label>
+    <input type="text" id="node-input-gateway" placeholder="gateway">
+  </div>
+  <div class="form-row">
+    <label for="node-input-info"><i class="icon-function"></i> Info output</label>
+    <input type="text" id="node-input-info" placeholder="payload">
+  </div>
+  <div class="form-row">
+    <label for="node-input-id"><i class="icon-tag"></i> ID output</label>
+    <input type="text" id="node-input-id" value="topic">
+  </div>
+</script>
+
+<script type="text/x-red" data-help-name="neviweb-device">
+  <p>A node to perform a request to Neviweb Website for gateway.</p>
+  <b>Configuration</b>
+  <ul>
+    <li>
+      <b>Name</b> Choose any name to identify your node.
+    </li>
+    <li>
+      <b>Server</b> Choose the Neviweb server instance to use.
+    </li>
+  </ul>
+  <b>Input</b>
+  <ul>
+    <li>
+      <code>msg.gateway</code> can contains the gateway ID.
+    </li>
+  </ul>
+  <b>Output 1</b>
   <ul>
     <li>
       <code>msg.payload</code> contains the body.
     </li>
     <li>
-      <code>msg.topic</code> contains the ID.
+      <code>msg.device</code> contains the ID.
+    </li>
+  </ul>
+  <b>Output 2</b>
+  <ul>
+    <li>
+      <code>msg.payload</code> contains a array of all devices.
     </li>
   </ul>
 </script>
