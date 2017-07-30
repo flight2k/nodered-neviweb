@@ -72,9 +72,9 @@ module.exports = function(RED) {
         uri: decodeURIComponent(url + 'device?gatewayID=' + msg.gateway),
         method: "GET",
         headers: {},
-        body: {
-          gatewayID: msg.gateway || config.gateway
-        },
+//        body: {
+//          gatewayID: msg.gateway || config.gateway
+//        },
         json: true
       };
       node.doRequest(options, callback);
