@@ -69,15 +69,15 @@ module.exports = function(RED) {
     this.device = function(msg, callback) {
       var options = {
         rejectUnauthorized: false,
-        uri: decodeURIComponent(url + 'device?gatewayId=' + msg.gateway),
+        uri: decodeURIComponent(url + 'device?gatewayId=' + (msg.gateway),
         method: "GET",
         headers: {},
 //        body: {
-//          gatewayID: msg.gateway || config.gateway
+//          gatewayId: msg.gateway || config.gateway
 //        },
         json: true
       };
-      node.log("Options device : " + JSON.stringify(options));
+//      node.log("Options device : " + JSON.stringify(options));
       node.doRequest(options, callback);
     }
   }
@@ -115,7 +115,7 @@ module.exports = function(RED) {
     this.on('input', function(msg) {
       this.log("Asking device " + JSON.stringify(msg.payload));
       var callback = function(errors, response, body) {
-        node.log("Device response : " + JSON.stringify(response));
+//        node.log("Device response : " + JSON.stringify(response));
         if ( response.body.sessionExpired ) {
           msg.payload = response.body;
         } else {
@@ -129,6 +129,7 @@ module.exports = function(RED) {
           }
         }
       }
+      msg.gateway = msg.gateway || config.gateway;
       account.device(msg, callback);
     });
     
