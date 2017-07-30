@@ -77,6 +77,7 @@ module.exports = function(RED) {
 //        },
         json: true
       };
+      node.log("Options device : " + JSON.stringify(options));
       node.doRequest(options, callback);
     }
   }
