@@ -112,15 +112,16 @@ module.exports = function(RED) {
     var account = RED.nodes.getNode(config.account);
     
     this.on('input', function(msg) {
-      this.log("Asking device " + msg.payload);
+      this.log("Asking device " + JSON.stringify(msg.payload));
       var callback = function(errors, response, body) {
-        if ( body.sessionExpired ) {
-          msg.payload = body;
+        this.log("Device response : " + JSON,stringify(response));
+        if ( response.body.sessionExpired ) {
+          msg.payload = response.body;
         } else {
           node.status({});
           msg.payload=response.body;
           node.send([null,msg]);
-          for(var device of body) {
+          for(var device of response.body) {
             msg[config.info]=device;
             msg[config.id]=device.id;
             node.send([msg,null]);
