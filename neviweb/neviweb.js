@@ -108,10 +108,18 @@ module.exports = function(RED) {
           node.status({});
           msg.payload=response.body;
           node.send([null,msg]);
-          for(var gateway of body) {
-            msg[config.info]=gateway;
-            msg[config.id]=gateway.id;
-            node.send([msg,null]);
+          if (config.mode === "GET") {
+            for(var gateway of body) {
+              msg[config.info]=gateway;
+              msg[config.id]=gateway.id;
+              node.send([msg,null]);
+            }
+          } else if (config.mode === "SET") {
+            if (body.success === true) {
+              node.status({fill:"green", shape:"dot", text:"Success"})
+            } else {
+              node.status({fill:"red", shape:"dot", text:"Error"})
+            }
           }
         }
       }
