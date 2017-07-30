@@ -114,7 +114,7 @@ module.exports = function(RED) {
     this.on('input', function(msg) {
       this.log("Asking device " + JSON.stringify(msg.payload));
       var callback = function(errors, response, body) {
-        this.log("Device response : " + JSON,stringify(response));
+        this.log("Device response : " + JSON.stringify(response));
         if ( response.body.sessionExpired ) {
           msg.payload = response.body;
         } else {
