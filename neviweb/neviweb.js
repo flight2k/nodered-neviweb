@@ -74,15 +74,16 @@ module.exports = function(RED) {
     this.on('input', function(msg) {
       this.log("Asking gateway " + msg.payload);
       var callback = function(errors, response, body) {
-        if (errors) {
-          
-        } else if (response.statusCode === 201) {
+        if ( body.sessionExpired ) {
+          msg.payload = body;
+        } else {
           node.status({});
           msg.payload=response.body;
-          node.send([msg, null]);
-        } else {
-          msg.payload=response.body;
-          node.send([null,msg]);
+          node.send([msg,null]);
+          for(var gateway of body) {
+            msg.payload = gateway;
+            node.send([null, msg]);
+          }
         }
       }
       account.gateway(callback);
