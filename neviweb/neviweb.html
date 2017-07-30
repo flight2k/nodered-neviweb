@@ -114,11 +114,11 @@
   </div>
   <h4>GET Configurations</h4>
   <div class="form-row">
-    <label for="node-input-info"><i class="icon-function"></i> Info output 2</label>
+    <label for="node-input-info"><i class="icon-function"></i> Info output 1</label>
     <input type="text" id="node-input-info" placeholder="payload">
   </div>
   <div class="form-row">
-    <label for="node-input-id"><i class="icon-tag"></i> ID output 2</label>
+    <label for="node-input-id"><i class="icon-tag"></i> ID output 1</label>
     <input type="text" id="node-input-id" value="topic">
   </div>
   <h4>SET Configurations</h4>
@@ -135,12 +135,22 @@
       <b>Server</b> Choose the Neviweb server instance to use.
     </li>
   </ul>
-  <b>Input</b>
+  <b>GET Input</b>
   <ul>
     <li>
       Anything.
     </li>
   </ul>
+  <b>SET Input</b>
+  <ul>
+    <li>
+      <code>msg.gateway</code>Gateway ID to SET.
+    </li>
+    <li>
+      <code>msg.topic</code>'0' for HOME / '2' for AWAY
+    </li>
+  </ul>
+  
   <b>Output 1</b>
   <p>1 output by gateway find</p>
   <ul>
@@ -170,9 +180,12 @@
       account: {
         value: "",
         type: "neviweb-account"
-      },
+      },      
       gateway: {
         value: ""
+      },
+      mode: {
+        value: "GET"
       },
       info: {
         value: "payload"
@@ -204,13 +217,22 @@
     <input type="text" id="node-input-gateway" placeholder="gateway">
   </div>
   <div class="form-row">
-    <label for="node-input-info"><i class="icon-function"></i> Info output 2</label>
+    <label for="node-input-mode"><i class="icon-function"></i> Mode</label>
+    <select id="node-input-mode">
+      <option value="GET" selected>GET Device information</option>
+      <option value="SET">SET Device information</option>
+    </select>
+  </div>
+  <h4>GET Configurations</h4>
+  <div class="form-row">
+    <label for="node-input-info"><i class="icon-function"></i> Info output 1</label>
     <input type="text" id="node-input-info" placeholder="payload">
   </div>
   <div class="form-row">
-    <label for="node-input-id"><i class="icon-tag"></i> ID output 2</label>
+    <label for="node-input-id"><i class="icon-tag"></i> ID output 1</label>
     <input type="text" id="node-input-id" value="topic">
   </div>
+  <h4>SET Configurations</h4>
 </script>
 
 <script type="text/x-red" data-help-name="neviweb-device">
