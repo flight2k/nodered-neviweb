@@ -65,6 +65,7 @@ module.exports = function(RED) {
       };
       node.doRequest(options, callback);
     }
+
     this.device = function(callback) {
       var options = {
         rejectUnauthorized: false,
@@ -103,7 +104,8 @@ module.exports = function(RED) {
       }
       account.gateway(callback);
     });
-
+  }
+  
   function NeviwebDeviceNode(config) {
     RED.nodes.createNode(this, config);
     var node = this;
