@@ -72,7 +72,7 @@ module.exports = function(RED) {
         uri: decodeURIComponent(url + 'gateway/' + msg.gateway + '/mode'),        
         method: "POST",
         json: true,
-        body: {mode: msg.topic} //pourrait être modifier pour msg.payload.set.mode
+        body: {mode: msg.topic.toString()} //pourrait être modifier pour msg.payload.set.mode
         //Mode : Absent = 2 / Présent = 0
       };
       node.doRequest(options, callback);
